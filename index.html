@@ -11,7 +11,7 @@
     :root{
       --bg:#f5efe7;
       --bg-2:#ebe1d3;
-      --panel:rgba(255,251,246,.84);
+      --panel:rgba(255,251,246,.86);
       --panel-strong:#fffaf4;
       --ink:#201915;
       --muted:#6f6459;
@@ -22,6 +22,7 @@
       --success:#216949;
       --danger:#ab2d2d;
       --warning:#9a6a16;
+      --info:#315f9c;
       --shadow:0 24px 60px rgba(67,40,18,.12);
       --radius:24px;
     }
@@ -56,7 +57,7 @@
     .screen.active{display:block}
 
     .shell{
-      width:min(1380px, calc(100% - 28px));
+      width:min(1400px, calc(100% - 28px));
       margin:0 auto;
       padding:18px 0 30px;
     }
@@ -104,6 +105,10 @@
       color:#fff;
       background:var(--warning);
     }
+    .btn-info{
+      color:#fff;
+      background:var(--info);
+    }
     .btn-ghost{
       color:var(--ink);
       background:transparent;
@@ -125,6 +130,7 @@
     .status.show{display:block}
     .status.success{background:#eaf7f0;color:var(--success);border:1px solid #b7e0c8}
     .status.error{background:#fdecec;color:#8f1f1f;border:1px solid #efb8b8}
+    .status.info{background:#edf4ff;color:#274d83;border:1px solid #c7d8fb}
 
     .auth-wrap{
       min-height:100vh;
@@ -175,7 +181,7 @@
       font-size:clamp(2.5rem, 6vw, 5rem);
       line-height:.92;
       letter-spacing:-.04em;
-      max-width:9ch;
+      max-width:10ch;
     }
     .auth-left p{
       margin:0;
@@ -342,7 +348,7 @@
       padding:24px;
     }
     .hero-main{
-      min-height:380px;
+      min-height:400px;
       display:flex;
       flex-direction:column;
       justify-content:space-between;
@@ -366,12 +372,12 @@
       font-size:clamp(2.2rem, 5.4vw, 4.8rem);
       line-height:.92;
       letter-spacing:-.05em;
-      max-width:11ch;
+      max-width:12ch;
     }
     .hero-main p{
       margin:0;
       color:var(--muted);
-      max-width:60ch;
+      max-width:62ch;
       line-height:1.75;
       font-size:1.02rem;
     }
@@ -702,7 +708,7 @@
     }
 
     @media (max-width:760px){
-      .shell{width:min(100% - 18px, 1380px)}
+      .shell{width:min(100% - 18px, 1400px)}
       .grid-form,.mini-grid{
         grid-template-columns:1fr;
       }
@@ -728,7 +734,6 @@
     }
   </style>
 </head>
-
 <body>
   <div id="authScreen" class="screen active">
     <div class="auth-wrap">
@@ -736,10 +741,11 @@
         <section class="auth-left glass reveal visible">
           <div>
             <span class="eyebrow">Patient Coordination Portal</span>
-            <h1>A&A Healthcare - Connect</h1>
+            <h1>Cloud-ready patient records with admin and client access.</h1>
             <p>
-              Care coordination & placement service connecting families with screened 
-		caregivers, companion care, nannies, & nurses for home-based support.
+              This portal supports local saving by default and can also connect to a cloud backend so you can access
+              users and patient entries anywhere in the world. Admin has full control. Client users can add records,
+              view all entries, and edit only the records they personally created.
             </p>
 
             <div class="feature-stack">
@@ -749,19 +755,20 @@
               </div>
               <div class="feature">
                 <strong>Client limited editing</strong>
-                Clients can add new records and edit only the records they recorded. They cannot delete records or users.
+                Clients can add records and edit only the records they recorded. They cannot delete records or users.
               </div>
               <div class="feature">
-                <strong>Popup vertical preview</strong>
-                Click any saved record to open a popup with full vertical patient details.
+                <strong>Cloud sync ready</strong>
+                To access data worldwide, connect this file to Firebase and deploy it to GitHub Pages or another host.
               </div>
             </div>
           </div>
 
           <div class="notice">
-           A&A Healthcare Connect Data Entry Program<br>
-             
-                    </div>
+            Default admin credentials:<br>
+            Username: <code>admin</code><br>
+            Password: <code>neruta2go</code>
+          </div>
         </section>
 
         <section class="auth-right glass reveal visible">
@@ -791,7 +798,8 @@
             </form>
 
             <div class="notice">
-              Client users can only be created by the admin inside the dashboard.
+              Client users can be created by the admin inside the dashboard.<br>
+              For worldwide access, upload this file to GitHub Pages and connect Firebase.
             </div>
           </div>
         </section>
@@ -809,14 +817,16 @@
             </svg>
           </div>
           <div>
-            <h2>A&A Data Entry Dashboard</h2>
-            <p>We Aim to Care...</p>
+            <h2>Patient Data Entry Dashboard</h2>
+            <p>Embedded CSS • role-based access • popup preview • local + cloud-ready</p>
           </div>
         </div>
 
         <div class="session">
           <span class="pill">User: <strong id="currentUserLabel">—</strong></span>
           <span class="pill">Role: <strong id="currentRoleLabel">—</strong></span>
+          <button class="btn btn-secondary" id="storageInfoBtn" type="button">Storage Info</button>
+          <button class="btn btn-secondary" id="githubInfoBtn" type="button">GitHub / Cloud Info</button>
           <button class="btn btn-secondary" id="logoutBtn" type="button">Logout</button>
         </div>
       </header>
@@ -825,10 +835,11 @@
         <div class="hero-main glass">
           <div>
             <span class="eyebrow">Workspace</span>
-            <h3>A&A Healthcare - Connect</h3>
+            <h3>Click “Record New Data” to open the Data Entry Section.</h3>
             <p>
-              Care coordination & placement service connecting families with screened 
-		caregivers, companion care, nannies, & nurses for home-based support.
+              Add patient records, preview all saved entries in a popup vertical view, and manage users based on role.
+              Admin can manage every record and every client account. Client users can only edit their own records.
+            </p>
           </div>
           <div class="hero-actions">
             <button class="btn btn-primary" id="recordNewDataBtn" type="button">Record New Data</button>
@@ -882,15 +893,15 @@
                 <strong id="overviewRole">—</strong>
               </div>
               <div class="mini">
-                <small>Storage Type</small>
-                <strong>Local</strong>
+                <small>Mode</small>
+                <strong id="overviewMode">Local</strong>
               </div>
             </div>
 
             <div style="margin-top:18px" class="notice">
-              To start encoding, click <strong>Record New Data</strong>. This redirects you to the
-              <strong>Data Entry Section</strong>. To preview a saved entry, open the
-              <strong>Data Entry List</strong> and click <strong>Preview</strong>.
+              By default, this file works with <strong>local browser storage</strong>. If you want to access all users and
+              records anywhere in the world, you need a cloud database. This file includes a
+              <strong>Firebase-ready cloud hook</strong>. Open the <strong>GitHub / Cloud Info</strong> popup for setup guidance.
             </div>
           </section>
 
@@ -898,7 +909,7 @@
             <div class="section-title">
               <div>
                 <h4 id="entrySectionTitle">Data Entry Section</h4>
-                <p id="entrySectionText">Enter patient details below and save them locally in your browser.</p>
+                <p id="entrySectionText">Enter patient details below and save them locally or to cloud if configured.</p>
               </div>
             </div>
 
@@ -1020,7 +1031,112 @@
     </div>
   </div>
 
-  <script>
+  <div id="storageModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <div>
+          <h5>Storage Information</h5>
+          <div class="modal-meta">How and where your data is currently being saved.</div>
+        </div>
+        <button class="btn btn-secondary small" id="closeStorageModalBtn" type="button">Close</button>
+      </div>
+      <div id="storageModalBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <div id="githubModal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <div>
+          <h5>GitHub / Cloud Setup</h5>
+          <div class="modal-meta">How to deploy this app and access your data anywhere in the world.</div>
+        </div>
+        <button class="btn btn-secondary small" id="closeGithubModalBtn" type="button">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="detail">
+          <small>Important</small>
+          <div>
+This HTML file alone cannot magically sync data worldwide.
+To access your records and users anywhere in the world, you need:
+1. A hosted website, such as GitHub Pages
+2. A cloud database, such as Firebase Firestore
+          </div>
+        </div>
+
+        <div class="detail">
+          <small>GitHub Pages Steps</small>
+          <div>
+1. Create a GitHub account
+2. Create a new repository
+3. Upload this HTML file as index.html
+4. Open repository Settings → Pages
+5. Set source to main branch / root
+6. Your site will be live on a public GitHub Pages URL
+          </div>
+        </div>
+
+        <div class="detail">
+          <small>Cloud Database Steps</small>
+          <div>
+1. Create a Firebase project
+2. Enable Firestore Database
+3. Replace the FIREBASE_CONFIG object in this file with your project config
+4. Set USE_CLOUD = true in the script
+5. Upload again to GitHub Pages
+6. Your users and records will sync online
+          </div>
+        </div>
+
+        <div class="detail">
+          <small>Current Mode</small>
+          <div id="cloudModeText">Local-only mode is active right now.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    // =========================
+    // OPTIONAL CLOUD CONFIG
+    // =========================
+    // To use worldwide access:
+    // 1) Create a Firebase project
+    // 2) Enable Firestore
+    // 3) Replace config values below
+    // 4) Set USE_CLOUD = true
+    const USE_CLOUD = true;
+
+    const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyDJYersCWTrqD_kyfvE4yg6jugK1U59hxk",
+    authDomain: "indexdatabase-306b7.firebaseapp.com",
+    projectId: "indexdatabase-306b7",
+    storageBucket: "indexdatabase-306b7.firebasestorage.app",
+    messagingSenderId: "967504554265",
+    appId: "1:967504554265:web:d3dc4d0f1e753223d83d88",
+    measurementId: "G-EF0GPNC981"
+ 
+    };
+
+    let firebaseApp = null;
+    let db = null;
+
+    if (USE_CLOUD) {
+      try {
+        const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js");
+        const {
+          getFirestore, collection, getDocs, addDoc, setDoc, deleteDoc, doc
+        } = await import("https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js");
+
+        firebaseApp = initializeApp(FIREBASE_CONFIG);
+        db = getFirestore(firebaseApp);
+
+        window.__cloud = { collection, getDocs, addDoc, setDoc, deleteDoc, doc };
+      } catch (err) {
+        console.error("Firebase failed to load. Falling back to local mode.", err);
+      }
+    }
+
     const STORAGE_KEYS = {
       users: "patient_portal_users",
       records: "patient_portal_records",
@@ -1030,7 +1146,21 @@
     let currentLoginRole = "admin";
     let currentUser = null;
 
-    function seedDefaultData() {
+    async function seedDefaultData() {
+      if (USE_CLOUD && db) {
+        const users = await getUsers();
+        if (!users.find(u => u.username === "admin")) {
+          const admin = {
+            username: "admin",
+            password: "neruta2go",
+            role: "admin",
+            createdAt: new Date().toISOString()
+          };
+          await saveUserCloud(admin.username, admin);
+        }
+        return;
+      }
+
       const users = JSON.parse(localStorage.getItem(STORAGE_KEYS.users) || "[]");
       if (!users.find(u => u.username === "admin")) {
         users.push({
@@ -1046,20 +1176,56 @@
       }
     }
 
-    function getUsers() {
+    async function getUsers() {
+      if (USE_CLOUD && db) {
+        const snap = await window.__cloud.getDocs(window.__cloud.collection(db, "users"));
+        return snap.docs.map(d => d.data());
+      }
       return JSON.parse(localStorage.getItem(STORAGE_KEYS.users) || "[]");
     }
 
-    function saveUsers(users) {
+    async function saveUsers(users) {
+      if (USE_CLOUD && db) {
+        for (const user of users) {
+          await saveUserCloud(user.username, user);
+        }
+        return;
+      }
       localStorage.setItem(STORAGE_KEYS.users, JSON.stringify(users));
     }
 
-    function getRecords() {
+    async function saveUserCloud(id, user) {
+      await window.__cloud.setDoc(window.__cloud.doc(db, "users", id), user);
+    }
+
+    async function deleteUserCloud(id) {
+      await window.__cloud.deleteDoc(window.__cloud.doc(db, "users", id));
+    }
+
+    async function getRecords() {
+      if (USE_CLOUD && db) {
+        const snap = await window.__cloud.getDocs(window.__cloud.collection(db, "records"));
+        return snap.docs.map(d => d.data()).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      }
       return JSON.parse(localStorage.getItem(STORAGE_KEYS.records) || "[]");
     }
 
-    function saveRecords(records) {
+    async function saveRecords(records) {
+      if (USE_CLOUD && db) {
+        for (const record of records) {
+          await saveRecordCloud(record.id, record);
+        }
+        return;
+      }
       localStorage.setItem(STORAGE_KEYS.records, JSON.stringify(records));
+    }
+
+    async function saveRecordCloud(id, record) {
+      await window.__cloud.setDoc(window.__cloud.doc(db, "records", id), record);
+    }
+
+    async function deleteRecordCloud(id) {
+      await window.__cloud.deleteDoc(window.__cloud.doc(db, "records", id));
     }
 
     function setSession(user) {
@@ -1104,7 +1270,7 @@
       URL.revokeObjectURL(url);
     }
 
-    function recordsToPlainText(records) {
+    async function recordsToPlainText(records) {
       if (!records.length) return "No records available.";
       return records.map((r, i) => [
         `Record #${i + 1}`,
@@ -1123,27 +1289,22 @@
       ].filter(Boolean).join("\n")).join("\n\n");
     }
 
-    function exportTxt() {
+    async function exportTxt() {
       downloadFile(
         "patient-records.txt",
-        recordsToPlainText(getRecords()),
+        await recordsToPlainText(await getRecords()),
         "text/plain;charset=utf-8"
       );
     }
 
-    function exportDocxLike() {
-      const text = recordsToPlainText(getRecords());
+    async function exportDocxLike() {
+      const text = await recordsToPlainText(await getRecords());
       const htmlDoc = `
         <html xmlns:o="urn:schemas-microsoft-com:office:office"
               xmlns:w="urn:schemas-microsoft-com:office:word"
               xmlns="http://www.w3.org/TR/REC-html40">
         <head><meta charset="utf-8"><title>Patient Records</title></head>
-        <body><pre style="font-family:Calibri, sans-serif; white-space:pre-wrap;">${sanitize(text)}</pre>
-
-
-
-
-</body>
+        <body><pre style="font-family:Calibri, sans-serif; white-space:pre-wrap;">${sanitize(text)}</pre></body>
         </html>
       `;
       downloadFile(
@@ -1173,15 +1334,22 @@
       });
     }
 
-    function updateStats() {
-      document.getElementById("totalRecordsStat").textContent = getRecords().length;
-      document.getElementById("totalClientsStat").textContent = getUsers().filter(u => u.role === "client").length;
+    async function updateStats() {
+      const allRecords = await getRecords();
+      const allUsers = await getUsers();
+      document.getElementById("totalRecordsStat").textContent = allRecords.length;
+      document.getElementById("totalClientsStat").textContent = allUsers.filter(u => u.role === "client").length;
       document.getElementById("overviewUser").textContent = currentUser?.username || "—";
       document.getElementById("overviewRole").textContent = currentUser?.role || "—";
+      document.getElementById("overviewMode").textContent = (USE_CLOUD && db) ? "Cloud" : "Local";
       document.getElementById("currentUserLabel").textContent = currentUser?.username || "—";
       document.getElementById("currentRoleLabel").textContent = currentUser?.role || "—";
       document.getElementById("rolePermissionTag").textContent =
         currentUser?.role === "admin" ? "Full Control" : "View, Add & Own Edit";
+      document.getElementById("cloudModeText").textContent =
+        (USE_CLOUD && db)
+          ? "Cloud mode is active. Data can be accessed anywhere through your hosted site."
+          : "Local-only mode is active right now. Data is saved only in this browser unless you enable Firebase.";
     }
 
     function canEditRecord(record) {
@@ -1190,9 +1358,9 @@
       return record.createdBy === currentUser.username;
     }
 
-    function renderUsers() {
+    async function renderUsers() {
       const wrap = document.getElementById("usersList");
-      const users = getUsers().filter(u => u.role === "client");
+      const users = (await getUsers()).filter(u => u.role === "client");
 
       if (!users.length) {
         wrap.innerHTML = `<div class="empty">No client users created yet.</div>`;
@@ -1206,17 +1374,17 @@
             <small>Role: client • Created: ${formatDate(u.createdAt)}</small>
           </div>
           <div>
-            <button class="btn btn-danger small" type="button" onclick="deleteClientUser('${u.username}')">Delete User</button>
+            <button class="btn btn-danger small" type="button" onclick="window.deleteClientUser('${u.username}')">Delete User</button>
           </div>
         </div>
       `).join("");
     }
 
-    function renderRecords(filter = "") {
+    async function renderRecords(filter = "") {
       const list = document.getElementById("recordsList");
       const isAdmin = currentUser?.role === "admin";
 
-      const records = getRecords().filter(r => {
+      const records = (await getRecords()).filter(r => {
         const haystack = [
           r.patientName, r.contactPerson, r.contactNumber, r.address,
           r.clientRate, r.contractorRate, r.patientCase, r.postInfo, r.createdBy
@@ -1244,17 +1412,17 @@
               </div>
             </div>
             <div class="record-actions">
-              <button class="btn btn-secondary small" type="button" onclick="openPreview('${r.id}')">Preview</button>
-              ${editable ? `<button class="btn btn-warning small" type="button" onclick="startEditRecord('${r.id}')">Edit</button>` : ``}
-              ${isAdmin ? `<button class="btn btn-danger small" type="button" onclick="deleteRecord('${r.id}')">Delete</button>` : ``}
+              <button class="btn btn-secondary small" type="button" onclick="window.openPreview('${r.id}')">Preview</button>
+              ${editable ? `<button class="btn btn-warning small" type="button" onclick="window.startEditRecord('${r.id}')">Edit</button>` : ``}
+              ${isAdmin ? `<button class="btn btn-danger small" type="button" onclick="window.deleteRecord('${r.id}')">Delete</button>` : ``}
             </div>
           </div>
         `;
       }).join("");
     }
 
-    function openPreview(id) {
-      const record = getRecords().find(r => r.id === id);
+    async function openPreview(id) {
+      const record = (await getRecords()).find(r => r.id === id);
       if (!record) return;
 
       document.getElementById("modalTitle").textContent = record.patientName;
@@ -1283,37 +1451,81 @@
       modal.setAttribute("aria-hidden", "true");
     }
 
-    function deleteRecord(id) {
+    async function openStorageModal() {
+      const records = await getRecords();
+      const users = await getUsers();
+      document.getElementById("storageModalBody").innerHTML = `
+        <div class="detail"><small>Current Mode</small><div>${(USE_CLOUD && db) ? "Cloud + Hosted Access" : "Local Browser Storage Only"}</div></div>
+        <div class="detail"><small>Records Saved</small><div>${records.length}</div></div>
+        <div class="detail"><small>Client Users Saved</small><div>${users.filter(u => u.role === "client").length}</div></div>
+        <div class="detail"><small>Where Data Is Stored</small><div>${(USE_CLOUD && db) ? "Firestore cloud database and browser session cache." : "Inside this browser on this device using localStorage."}</div></div>
+        <div class="detail"><small>Important</small><div>${(USE_CLOUD && db) ? "Data can be accessed from anywhere through your hosted website." : "If you clear browser data or switch devices, saved data will not appear unless cloud mode is enabled."}</div></div>
+      `;
+      const modal = document.getElementById("storageModal");
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeStorageModal() {
+      const modal = document.getElementById("storageModal");
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    function openGithubModal() {
+      const modal = document.getElementById("githubModal");
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeGithubModal() {
+      const modal = document.getElementById("githubModal");
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    async function deleteRecord(id) {
       if (currentUser?.role !== "admin") return;
       if (!confirm("Delete this record?")) return;
-      const updated = getRecords().filter(r => r.id !== id);
-      saveRecords(updated);
-      renderRecords(document.getElementById("searchInput").value);
-      updateStats();
+
+      if (USE_CLOUD && db) {
+        await deleteRecordCloud(id);
+      } else {
+        const updated = (await getRecords()).filter(r => r.id !== id);
+        await saveRecords(updated);
+      }
+
+      await renderRecords(document.getElementById("searchInput").value);
+      await updateStats();
       closePreview();
     }
 
-    function deleteClientUser(username) {
+    async function deleteClientUser(username) {
       if (currentUser?.role !== "admin") return;
       if (!confirm(`Delete client user "${username}"? Their saved records will remain.`)) return;
 
-      const updatedUsers = getUsers().filter(u => !(u.username === username && u.role === "client"));
-      saveUsers(updatedUsers);
-      renderUsers();
-      updateStats();
+      if (USE_CLOUD && db) {
+        await deleteUserCloud(username);
+      } else {
+        const updatedUsers = (await getUsers()).filter(u => !(u.username === username && u.role === "client"));
+        await saveUsers(updatedUsers);
+      }
+
+      await renderUsers();
+      await updateStats();
     }
 
     function resetEntryForm() {
       document.getElementById("entryForm").reset();
       document.getElementById("editingRecordId").value = "";
       document.getElementById("entrySectionTitle").textContent = "Data Entry Section";
-      document.getElementById("entrySectionText").textContent = "Enter patient details below and save them locally in your browser.";
+      document.getElementById("entrySectionText").textContent = "Enter patient details below and save them locally or to cloud if configured.";
       document.getElementById("saveRecordBtn").textContent = "Save Record";
       document.getElementById("cancelEditBtn").classList.add("hidden");
     }
 
-    function startEditRecord(id) {
-      const record = getRecords().find(r => r.id === id);
+    async function startEditRecord(id) {
+      const record = (await getRecords()).find(r => r.id === id);
       if (!record) return;
       if (!canEditRecord(record)) return;
 
@@ -1352,6 +1564,8 @@
       currentUser = null;
       clearSession();
       closePreview();
+      closeStorageModal();
+      closeGithubModal();
       resetEntryForm();
       document.getElementById("appScreen").classList.remove("active");
       document.getElementById("authScreen").classList.add("active");
@@ -1362,7 +1576,12 @@
       document.getElementById("clientTab").classList.remove("active");
     }
 
-    seedDefaultData();
+    window.openPreview = openPreview;
+    window.startEditRecord = startEditRecord;
+    window.deleteRecord = deleteRecord;
+    window.deleteClientUser = deleteClientUser;
+
+    await seedDefaultData();
 
     document.getElementById("adminTab").addEventListener("click", () => {
       currentLoginRole = "admin";
@@ -1380,13 +1599,13 @@
 
     document.getElementById("loginUsername").value = "admin";
 
-    document.getElementById("loginForm").addEventListener("submit", (e) => {
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const username = document.getElementById("loginUsername").value.trim();
       const password = document.getElementById("loginPassword").value;
       const authStatus = document.getElementById("authStatus");
 
-      const user = getUsers().find(u =>
+      const user = (await getUsers()).find(u =>
         u.username === username &&
         u.password === password &&
         u.role === currentLoginRole
@@ -1403,11 +1622,11 @@
 
     document.getElementById("logoutBtn").addEventListener("click", logout);
 
-    document.getElementById("entryForm").addEventListener("submit", (e) => {
+    document.getElementById("entryForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const editingId = document.getElementById("editingRecordId").value.trim();
-      const records = getRecords();
+      const records = await getRecords();
 
       if (editingId) {
         const index = records.findIndex(r => r.id === editingId);
@@ -1435,7 +1654,12 @@
           updatedBy: currentUser.username
         };
 
-        saveRecords(records);
+        if (USE_CLOUD && db) {
+          await saveRecordCloud(records[index].id, records[index]);
+        } else {
+          await saveRecords(records);
+        }
+
         showStatus(document.getElementById("formStatus"), "Record updated successfully.", "success");
       } else {
         const record = {
@@ -1452,14 +1676,19 @@
           createdAt: new Date().toISOString()
         };
 
-        records.unshift(record);
-        saveRecords(records);
-        showStatus(document.getElementById("formStatus"), "Record saved locally.", "success");
+        if (USE_CLOUD && db) {
+          await saveRecordCloud(record.id, record);
+        } else {
+          records.unshift(record);
+          await saveRecords(records);
+        }
+
+        showStatus(document.getElementById("formStatus"), "Record saved successfully.", "success");
       }
 
       resetEntryForm();
-      renderRecords(document.getElementById("searchInput").value);
-      updateStats();
+      await renderRecords(document.getElementById("searchInput").value);
+      await updateStats();
       switchView("recordsView");
       document.getElementById("recordsView").scrollIntoView({ behavior: "smooth", block: "start" });
     });
@@ -1472,7 +1701,7 @@
       resetEntryForm();
     });
 
-    document.getElementById("createClientForm").addEventListener("submit", (e) => {
+    document.getElementById("createClientForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       if (currentUser?.role !== "admin") return;
 
@@ -1485,24 +1714,30 @@
         return;
       }
 
-      const users = getUsers();
+      const users = await getUsers();
       if (users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
         showStatus(status, "Username already exists.", "error");
         return;
       }
 
-      users.push({
+      const newUser = {
         username,
         password,
         role: "client",
         createdAt: new Date().toISOString()
-      });
+      };
 
-      saveUsers(users);
+      if (USE_CLOUD && db) {
+        await saveUserCloud(username, newUser);
+      } else {
+        users.push(newUser);
+        await saveUsers(users);
+      }
+
       document.getElementById("createClientForm").reset();
       showStatus(status, "Client user created successfully.", "success");
-      renderUsers();
-      updateStats();
+      await renderUsers();
+      await updateStats();
     });
 
     document.getElementById("recordNewDataBtn").addEventListener("click", () => {
@@ -1511,39 +1746,56 @@
       document.getElementById("entryView").scrollIntoView({ behavior: "smooth", block: "start" });
     });
 
-    document.getElementById("goToListBtn").addEventListener("click", () => {
+    document.getElementById("goToListBtn").addEventListener("click", async () => {
       switchView("recordsView");
-      renderRecords(document.getElementById("searchInput").value);
+      await renderRecords(document.getElementById("searchInput").value);
       document.getElementById("recordsView").scrollIntoView({ behavior: "smooth", block: "start" });
     });
 
     document.querySelectorAll(".menu button[data-view]").forEach(btn => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", async () => {
         if (btn.dataset.view === "entryView") resetEntryForm();
         switchView(btn.dataset.view);
       });
     });
 
-    document.getElementById("searchInput").addEventListener("input", (e) => {
-      renderRecords(e.target.value);
+    document.getElementById("searchInput").addEventListener("input", async (e) => {
+      await renderRecords(e.target.value);
     });
 
-    document.getElementById("exportTxtBtn").addEventListener("click", () => {
+    document.getElementById("exportTxtBtn").addEventListener("click", async () => {
       if (currentUser?.role !== "admin") return;
-      exportTxt();
+      await exportTxt();
     });
 
-    document.getElementById("exportDocBtn").addEventListener("click", () => {
+    document.getElementById("exportDocBtn").addEventListener("click", async () => {
       if (currentUser?.role !== "admin") return;
-      exportDocxLike();
+      await exportDocxLike();
     });
+
+    document.getElementById("storageInfoBtn").addEventListener("click", openStorageModal);
+    document.getElementById("githubInfoBtn").addEventListener("click", openGithubModal);
 
     document.getElementById("closeModalBtn").addEventListener("click", closePreview);
+    document.getElementById("closeStorageModalBtn").addEventListener("click", closeStorageModal);
+    document.getElementById("closeGithubModalBtn").addEventListener("click", closeGithubModal);
+
     document.getElementById("previewModal").addEventListener("click", (e) => {
       if (e.target.id === "previewModal") closePreview();
     });
+    document.getElementById("storageModal").addEventListener("click", (e) => {
+      if (e.target.id === "storageModal") closeStorageModal();
+    });
+    document.getElementById("githubModal").addEventListener("click", (e) => {
+      if (e.target.id === "githubModal") closeGithubModal();
+    });
+
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closePreview();
+      if (e.key === "Escape") {
+        closePreview();
+        closeStorageModal();
+        closeGithubModal();
+      }
     });
 
     const savedSession = getSession();
